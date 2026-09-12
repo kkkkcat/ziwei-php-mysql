@@ -1,0 +1,18 @@
+紫微斗數排盤系統 PHP + MySQL 版
+================================
+
+Windows 建議啟動方式：
+
+1. 先安裝 Docker Desktop，並確認它正在執行。
+2. （建議）把 .env.example 複製成 .env，修改 DB_PASS / MYSQL_ROOT_PASSWORD。
+3. 雙擊 scripts\start-windows.bat
+4. 瀏覽器會打開 http://localhost:8080
+5. Edge / Chrome 出現「安裝 App」後，可裝成 Windows PWA。
+
+停止：scripts\stop-windows.bat
+完整說明：README.md
+
+注意：
+- 目前是本機 / 單人工作室版，不建議直接裸露到 Internet。
+- 排盤核心固定 iztro 2.6.1；第一次啟動腳本會嘗試下載本機引擎檔。
+- 真正商用前，請按 docs\ACCEPTANCE.md 用你指定門派的權威命例做回歸驗證。

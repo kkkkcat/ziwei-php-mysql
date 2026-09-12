@@ -1,0 +1,50 @@
+CREATE DATABASE IF NOT EXISTS ziwei CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE ziwei;
+
+CREATE TABLE IF NOT EXISTS cases (
+  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
+  name VARCHAR(100) NOT NULL,
+  birth_year SMALLINT UNSIGNED NOT NULL,
+  birth_month TINYINT UNSIGNED NOT NULL,
+  birth_day TINYINT UNSIGNED NOT NULL,
+  birth_hour TINYINT UNSIGNED NOT NULL,
+  gender ENUM('男','女') NOT NULL,
+  calendar_type ENUM('solar','lunar') NOT NULL DEFAULT 'solar',
+  is_leap_month TINYINT(1) NOT NULL DEFAULT 0,
+  fix_leap TINYINT(1) NOT NULL DEFAULT 1,
+  timezone VARCHAR(64) NOT NULL DEFAULT 'Asia/Taipei',
+  note TEXT NULL,
+  engine_name VARCHAR(32) NOT NULL DEFAULT 'iztro',
+  engine_version VARCHAR(32) NOT NULL DEFAULT '2.6.1',
+  settings_json JSON NULL,
+  chart_json JSON NULL,
+  created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id),
+  KEY idx_cases_name (name),
+  KEY idx_cases_birth_ymd (birth_year,birth_month,birth_day),
+  KEY idx_cases_updated_at (updated_at)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE IF NOT EXISTS app_settings (
+  id TINYINT UNSIGNED NOT NULL DEFAULT 1,
+  algorithm VARCHAR(32) NOT NULL DEFAULT 'default',
+  year_divide VARCHAR(16) NOT NULL DEFAULT 'normal',
+  horoscope_divide VARCHAR(16) NOT NULL DEFAULT 'normal',
+  age_divide VARCHAR(16) NOT NULL DEFAULT 'normal',
+  day_divide VARCHAR(16) NOT NULL DEFAULT 'forward',
+  language VARCHAR(16) NOT NULL DEFAULT 'zh-TW',
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT IGNORE INTO app_settings (id) VALUES (1);
+
+
+CREATE TABLE IF NOT EXISTS schema_meta (
+  id TINYINT UNSIGNED NOT NULL DEFAULT 1,
+  schema_version INT UNSIGNED NOT NULL DEFAULT 1,
+  updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (id)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+INSERT IGNORE INTO schema_meta (id, schema_version) VALUES (1, 1);
